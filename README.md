@@ -1,7 +1,8 @@
 使用示例：
 
 ```
--ca DbgPrompt -hba fffff804`481fbc80 -hea fffff804`481fbc8a  -rba '' -mn nt-nt -pn avscan
+-ca DbgPrompt -hba fffff804`481fbc80 -hea fffff804`481fbc8a  -rba '' -mn nt-nt -pn avscan  -comment "break before calling iofcalldriver at IopParseDevice"
+
 ```
 
 如果只是hook第三方的驱动，问题不大，但是如果要hook windows自己的内核模块，可能会超出2gb的inline hook jmp指令25ff的上限
