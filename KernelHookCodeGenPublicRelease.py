@@ -380,7 +380,7 @@ def generatePaiWriteWindbgIns(rba):
     global windbgHookIns
     windbgHookIns = windbgHookIns.replace("jicunqizhuanyi", finalString)
 def replace_in_fileDef(old_string, new_string):
-    file_path = r'C:\Users\x\Downloads\密码是1\avscan\filter\avscan.c'
+    file_path = r'C:\Users\x\Desktop\imp\WorkBackup\falcon_propject\Insightproject\KH2\avscan\filter\avscan.c'
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
 
@@ -389,7 +389,7 @@ def replace_in_fileDef(old_string, new_string):
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(content)
 def replace_in_fileDec(old_string, new_string):
-    file_path = r'C:\Users\x\Downloads\密码是1\avscan\filter\avscan.c'
+    file_path = r'C:\Users\x\Desktop\imp\WorkBackup\falcon_propject\Insightproject\KH2\avscan\filter\avscan.c'
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
 
@@ -398,7 +398,7 @@ def replace_in_fileDec(old_string, new_string):
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(content)
 def replace_in_fileMain(old_string, new_string):
-    file_path = r'C:\Users\x\Downloads\密码是1\avscan\filter\avscan.c'
+    file_path = r'C:\Users\x\Desktop\imp\WorkBackup\falcon_propject\Insightproject\KH2\avscan\filter\avscan.c'
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
     if old_string in content:
@@ -409,7 +409,7 @@ def replace_in_fileMain(old_string, new_string):
         file.write(content)
 
 def CheckForContentExist(old_string):
-    file_path = r'C:\Users\x\Downloads\密码是1\avscan\filter\avscan.c'
+    file_path = r'C:\Users\x\Desktop\imp\WorkBackup\falcon_propject\Insightproject\KH2\avscan\filter\avscan.c'
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
 
@@ -538,7 +538,7 @@ def placedholderrandom12313FuncCodeGen(hba):
                     r'//placedholderrandom12313FunccodePreventOptimizeAddMark' + '\n' + r'placedholderrandom12313_' + hba + r'(NULL);')
 
 
-def KHHookHandlerFuncCodeGen(hba,rba):
+def KHHookHandlerFuncCodeGen(hba,rba,comment):
     template = """
     PVOID KHHookHandler(PVOID a1,PVOID a2,PVOID a3,PVOID a4,PVOID a5) {PBYTE _rsp = a5;
 	if (a1 == NULL)return 0;
@@ -559,6 +559,7 @@ def KHHookHandlerFuncCodeGen(hba,rba):
     if rba=="''":
         finas="PBYTE _rcx=a1;PBYTE _rdx=a2;PBYTE _r8=a3;PBYTE _r9=a4;"
         template = template.replace("return NULL;", finas + "\n\nreturn NULL;")
+    template = template.replace('PVOID KHHookHandler', '// ' + comment + '\n' + 'PVOID KHHookHandler')
     template = template.replace(r'myprintf("123\n")', r'myprintf("' + hba + r'\n")');
     template = template.replace(r'PVOID KHHookHandler(',
                                 r'PVOID KHHookHandler_' + hba + r'(');
@@ -580,6 +581,7 @@ def main():
     parser.add_argument("-mn", required=True, help="module name")
     parser.add_argument("-pn", required=True, help="project module name")
     parser.add_argument("-ca", required=True, help="custom jump address")
+    parser.add_argument("-comment", required=True, help="function comment")
 
     args = parser.parse_args()
     global windbgHookIns
@@ -652,7 +654,8 @@ def main():
     placedholderrandom12313FuncCodeGen(hex(args.hba))
     agsduigasuidgasiufgiagFuncCodeGen(hex(args.hba))
     PivotFuncCodeGen(hex(args.hba))
-    KHHookHandlerFuncCodeGen(hex(args.hba),args.rba)
+    
+    KHHookHandlerFuncCodeGen(hex(args.hba),args.rba,args.comment)
     windbgHookIns = windbgHookIns.replace('locateMyHandler', 'u mydriver1!KHHookHandler_' + hex(args.hba))
     windbgHookIns=windbgHookIns.replace("PBYTE _''=a1;",'\n')
     modulename='PROCEXP152'
